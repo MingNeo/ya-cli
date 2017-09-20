@@ -12,7 +12,7 @@
   "author": "liumingren",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/MingNeo/ya-cli.git"
   },
   "engines": {
     "node": ">=6.0.0"
