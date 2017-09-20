@@ -1,1 +1,2 @@
-# Ya-cli - 雅座前端脚手架
+# ya-cli
+Simple CLI for scaffolding Ya projects
