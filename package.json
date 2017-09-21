@@ -1,6 +1,6 @@
 {
-  "name": "ya-cli",
-  "version": "0.0.1",
+  "name": "yay-cli",
+  "version": "0.0.2",
   "description": "yazuo web project scaffold",
   "main": "index.js",
   "scripts": {
@@ -9,10 +9,10 @@
   "bin": {
     "ya": "bin/ya.js"
   },
-  "author": "liumingren",
+  "author": "mingrenjbdt",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MingNeo/ya-cli.git"
+    "url": "git+https://github.com/MingNeo/ya-cli.git"
   },
   "engines": {
     "node": ">=6.0.0"
@@ -34,5 +34,17 @@
     "request": "^2.81.0",
     "rimraf": "^2.6.2",
     "user-home": "^2.0.0"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/MingNeo/ya-cli/issues"
+  },
+  "homepage": "https://github.com/MingNeo/ya-cli#readme",
+  "devDependencies": {
+    "coffee-script": "^1.12.7"
+  },
+  "keywords": [
+    "ya",
+    "cli"
+  ],
+  "license": "ISC"
 }
