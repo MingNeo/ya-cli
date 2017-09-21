@@ -10,10 +10,13 @@ const exists = require('fs').existsSync
 const rm = require('rimraf').sync
 const download = require('download-git-repo')
 const home = require('user-home')
-var exec = require('child_process').exec
+const childProcess = require('child_process')
+const spawn = require('cross-spawn')
 const checkVersion = require('../lib/check-version')
 const generate = require('../lib/generate.js')
-const opts = require('../lib/option-list.js')
+const options = require('../lib/option-list.js').prompt
+const exec = childProcess.exec
+const execSync = childProcess.execSync
 
 program
   .usage('[project-name]')
@@ -23,26 +26,30 @@ program
 
 const name = program.args[0]
 // 如果init命令输入了name参数
-if (name) opts['name'].default = name
+if (name) options['name'].default = name
 // 检查版本
 checkVersion(() => {
   console.log(chalk.red(figlet.textSync('YA CLI')))
   downloadTemplate('MingNeo/ya-template')
 })
 
-function downloadTemplate (template) {
+/**
+ * 下载模板
+ * 
+ * @param {string} template 
+ */
+function downloadTemplate(template) {
   // 模板存储路径为本地的用户目录 如windows在Users/[user]
   var localTemp = path.join(home, '.ya-templates', template.replace(/\//g, '-'))
   // 使用本地模板
-  if (program.offline) {
-    localTemp = path.resolve('D:\\code\\demos\\ya-templates')
+  if (program.offline && exists(localTemp)) {
+    // localTemp = path.resolve('D:\\code\\demos\\ya-templates')
     console.log(`使用位于${chalk.yellow(localTemp)}的本地模板`)
     startGenerate(name, localTemp)
   } else {
     const spinner = ora('正在下载模板')
     spinner.start()
     if (exists(localTemp)) rm(localTemp)
-
     download(template, localTemp, {}, err => {
       spinner.stop()
       if (err) return console.log(chalk.red('  下载模板失败！'))
@@ -51,7 +58,15 @@ function downloadTemplate (template) {
   }
 }
 
-function startGenerate (name, src, dest, done) {
+/**
+ * 生成实例
+ * 
+ * @param {string} name 
+ * @param {any} src 
+ * @param {any} dest 
+ * @param {any} done 
+ */
+function startGenerate(name, src, dest, done) {
   dest = dest || path.resolve(name || '.')
   generate(name, src, dest, done || function () {
     console.log()
@@ -62,18 +77,40 @@ function startGenerate (name, src, dest, done) {
       : inquirer.prompt([{
         name: 'autoInstall',
         type: 'confirm',
-        message: '是否立刻安装依赖？'
+        message: '是否立刻安装依赖？(优先使用yarn,如本机未安装则使用npm install)'
       }]).then(args => args.autoInstall && installModules(dest))
   })
 }
 
-function installModules (dest) {
+/**
+ * 安装模块
+ * 
+ * @param {any} dest 
+ */
+function installModules(dest) {
   var spinnerInstall = ora('安装依赖').start()
-  let install = exec('npm install', { cwd: dest }, (err, stdout, stderr) => {
-    if (err) throw err
-    spinnerInstall.stop()
-  })
-  install.stdout.on('data', data => {
-    console.log(data)
-  })
+  // 优先使用yarn安装
+  let command = 'yarnpkg'
+  let args = []
+  if (!shouldUseYarn()) {
+    command = 'npm'
+    args = ['install']
+  }
+
+  spawn(command, args, { stdio: 'inherit', cwd: dest })
+    .on('close', () => spinnerInstall.stop())
+}
+
+/**
+ * 判断本机是否可用yarn
+ * 
+ * @returns 
+ */
+function shouldUseYarn() {
+  try {
+    execSync('yarnpkg --version', { stdio: 'ignore' });
+    return true;
+  } catch (e) {
+    return false;
+  }
 }
