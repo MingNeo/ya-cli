@@ -41,9 +41,9 @@ checkVersion(() => {
 function downloadTemplate(template) {
   // 模板存储路径为本地的用户目录 如windows在Users/[user]
   var localTemp = path.join(home, '.ya-templates', template.replace(/\//g, '-'))
+  // localTemp = path.resolve('D:\\code\\demos\\ya-templates')
   // 使用本地模板
   if (program.offline && exists(localTemp)) {
-    // localTemp = path.resolve('D:\\code\\demos\\ya-templates')
     console.log(`使用位于${chalk.yellow(localTemp)}的本地模板`)
     startGenerate(name, localTemp)
   } else {
