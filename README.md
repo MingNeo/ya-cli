@@ -5,7 +5,7 @@ Simple CLI for scaffolding Ya projects
 环境: [Node.js](https://nodejs.org/en/download/) , npm  3.0+、 [Git](https://git-scm.com/).
 
 ``` bash
-npm install -g yay-cli
+npm install -g yz-cli
 ```
 
 ## 创建项目
