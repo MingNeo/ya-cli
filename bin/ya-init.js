@@ -30,7 +30,8 @@ if (name) options['name'].default = name
 // 检查版本
 checkVersion(() => {
   console.log(chalk.red(figlet.textSync('YA CLI')))
-  downloadTemplate('MingNeo/ya-template')
+  // downloadTemplate('MingNeo/ya-template')
+  downloadTemplate('q13/vue-spa-template')
 })
 
 /**
