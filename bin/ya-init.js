@@ -54,6 +54,10 @@ function downloadTemplate(template) {
     download(template, localTemp, {}, err => {
       spinner.stop()
       if (err) return console.log(chalk.red('  下载模板失败！'))
+      console.log(chalk.yellow(`使用q13/vue-spa-template的预设模板`))
+      console.log(`    默认开启lint，集成router、vuex，使用vuex等`)
+      console.log('    cd projectPath')
+      console.log('    npm run dev 开始开发')
       startGenerate(name, localTemp)
     })
   }
