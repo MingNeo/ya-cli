@@ -24,6 +24,18 @@ program
   .option('-i, --install', '下载模板后自动安装依赖')
   .parse(process.argv)
 
+program.on('--help', function () {
+  console.log('  Examples:')
+  console.log()
+  console.log(chalk.gray('    # 使用本地模板&自动安装依赖'))
+  console.log('    $ ya init my-project -i -o')
+  console.log()
+  console.log(chalk.gray('    # 安装完成后,运行时可以自己配置port及proxy'))
+  console.log('    $ cd ./my-project')
+  console.log('    $ npm run dev [port=8082] [proxy=127.0.0.1]')
+  console.log()
+})
+
 const name = program.args[0]
 // 如果init命令输入了name参数
 if (name) options['name'].default = name
@@ -31,9 +43,8 @@ if (name) options['name'].default = name
 checkVersion(() => {
   console.log(chalk.red(figlet.textSync('YA CLI')))
   // downloadTemplate('MingNeo/ya-template')
-  downloadTemplate('q13/vue-spa-template')
+  downloadTemplate('mingNeo/vue-spa-template')
 })
-
 /**
  * 下载模板
  * 
