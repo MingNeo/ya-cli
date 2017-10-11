@@ -1,6 +1,6 @@
 {
   "name": "yz-cli",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "yazuo web project scaffold",
   "main": "index.js",
   "scripts": {
