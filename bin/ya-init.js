@@ -21,6 +21,7 @@ const execSync = childProcess.execSync
 program
   .usage('[project-name]')
   .option('-o, --offline', '使用本地模板')
+  .option('--template [value]', '选择使用的模板', 'q13/vue-spa-template')
   .option('-i, --install', '下载模板后自动安装依赖')
   .parse(process.argv)
 
@@ -37,14 +38,41 @@ program.on('--help', function () {
 })
 
 const name = program.args[0]
+const projectDest = path.resolve(name || '.')
 // 如果init命令输入了name参数
 if (name) options['name'].default = name
-// 检查版本
-checkVersion(() => {
-  console.log(chalk.red(figlet.textSync('YA CLI')))
-  // downloadTemplate('MingNeo/ya-template')
-  downloadTemplate('mingNeo/vue-spa-template')
-})
+
+if (exists(projectDest)) {
+  inquirer.prompt([{
+    type: 'list',
+    message: '目录已经存在，如何处理？',
+    name: 'ok',
+    choices: [{
+      "name": "清空目录",
+      "value": "del",
+      "short": "del"
+    },
+    {
+      "name": "只覆盖",
+      "value": "save",
+      "short": "save"
+    }]
+  }]).then(args => {
+    if(args.ok === 'del') rm(projectDest)
+    run()
+  })
+} else {
+  run()
+}
+
+function run() {
+  // 检查版本
+  checkVersion(() => {
+    console.log(chalk.red(figlet.textSync('YA CLI')))
+    // downloadTemplate('MingNeo/ya-template')
+    downloadTemplate(program.tempalte || 'q13/vue-spa-template')
+  })
+}
 /**
  * 下载模板
  * 
@@ -70,7 +98,7 @@ function downloadTemplate(template) {
       console.log(`默认开启lint，集成router、vuex，使用vuex等`)
       console.log('cd projectPath')
       console.log('npm run dev 开始开发')
-      startGenerate(name, localTemp)
+      startGenerate(name, localTemp, projectDest)
     })
   }
 }
@@ -84,7 +112,6 @@ function downloadTemplate(template) {
  * @param {any} done 
  */
 function startGenerate(name, src, dest, done) {
-  dest = dest || path.resolve(name || '.')
   generate(name, src, dest, done || function () {
     console.log()
     console.log(chalk.green('  应用模板成功！'))
