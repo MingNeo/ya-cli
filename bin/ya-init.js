@@ -39,6 +39,7 @@ program.on('--help', function () {
 
 const name = program.args[0]
 const projectDest = path.resolve(name || '.')
+let save = false
 // 如果init命令输入了name参数
 if (name) options['name'].default = name
 
@@ -53,11 +54,12 @@ if (exists(projectDest)) {
       "short": "del"
     },
     {
-      "name": "只覆盖",
+      "name": "只覆盖(覆盖src路径以外文件)",
       "value": "save",
       "short": "save"
     }]
   }]).then(args => {
+    save = args.ok === 'save'
     if(args.ok === 'del') rm(projectDest)
     run()
   })
@@ -123,7 +125,7 @@ function startGenerate(name, src, dest, done) {
         type: 'confirm',
         message: '是否立刻安装依赖？(优先使用yarn,如本机未安装则使用npm install)'
       }]).then(args => args.autoInstall && installModules(dest))
-  })
+  }, {save})
 }
 
 /**
