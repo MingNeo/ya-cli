@@ -42,19 +42,19 @@ $ ya init
 创建 / 更新项目
 
 ```
-ya init project1
+$ ya init project1
 ```
 
 在当前目录创建 / 更新项目
 
 ```
-ya init
+$ ya init
 ```
 
 使用本地模板 & 自动安装依赖
 
 ```
-ya init project1 -i -o
+$ ya init project1 -i -o
 ```
 
 ## 模板
@@ -62,5 +62,5 @@ ya init project1 -i -o
 自定义模板无需发布到 npm，只需上传到 github 并通过 template 参数使用即可
 
 ```
-ya init projiect1 --template q13/vue-spa-template
+$ ya init projiect1 --template q13/vue-spa-template
 ```
