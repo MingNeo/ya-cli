@@ -1,6 +1,6 @@
 {
   "name": "yz-cli",
-  "version": "0.3.1",
+  "version": "0.5.0",
   "description": "yazuo web project scaffold",
   "main": "index.js",
   "scripts": {
@@ -43,9 +43,6 @@
     "url": "https://github.com/MingNeo/ya-cli/issues"
   },
   "homepage": "https://github.com/MingNeo/ya-cli#readme",
-  "keywords": [
-    "ya",
-    "cli"
-  ],
+  "keywords": ["ya", "cli"],
   "license": "ISC"
 }
