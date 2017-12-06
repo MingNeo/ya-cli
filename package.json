@@ -1,13 +1,13 @@
 {
   "name": "yz-cli",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "yazuo web project scaffold",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "yazz": "bin/ya.js"
+    "ya": "bin/ya.js"
   },
   "author": "mingrenjbdt",
   "repository": {
