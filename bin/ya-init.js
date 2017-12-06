@@ -56,7 +56,7 @@ if (exists(projectDest)) {
             short: 'del',
           },
           {
-            name: '只覆盖(覆盖src路径以外文件)',
+            name: '合并(合并 / 覆盖src路径以外文件)',
             value: 'save',
             short: 'save',
           },
@@ -65,7 +65,7 @@ if (exists(projectDest)) {
     ])
     .then(args => {
       save = args.ok === 'save';
-      if (args.ok === 'del') rm(projectDest);
+      if (args.ok === 'del') rm(path.join(projectDest, '*'));
       run();
     });
 } else {
