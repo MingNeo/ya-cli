@@ -97,7 +97,7 @@ function downloadTemplate(template) {
     console.log(`使用位于${chalk.yellow(localTemp)}的本地模板`);
     startGenerate(name, localTemp, projectDest);
   } else {
-    program.offline && console.log(`本地模板不存在，继续下载模板`);
+    program.offline && console.log(`本地模板不存在，将使用${program.tempalte}的预设模板`);
     const spinner = ora('正在下载模板');
     spinner.start();
     if (exists(localTemp)) rm(localTemp);
