@@ -21,7 +21,7 @@ const execSync = childProcess.execSync;
 program
   .usage('[project-name]')
   .option('-o, --offline', '使用本地模板')
-  .option('--template [value]', '选择使用的模板', 'q13/vue-spa-template')
+  .option('--template [value]', '选择使用的模板', 'q13/ya-spa-vue')
   .option('-i, --install', '下载模板后自动安装依赖')
   .parse(process.argv);
 
@@ -42,43 +42,47 @@ const projectDest = path.resolve(name || '.');
 let save = false;
 // 如果init命令输入了name参数
 if (name) options['name'].default = name;
-if (exists(projectDest)) {
-  inquirer
-    .prompt([
-      {
-        type: 'list',
-        message: '目录已经存在，如何处理？',
-        name: 'ok',
-        choices: [
-          {
-            name: '清空目录',
-            value: 'del',
-            short: 'del',
-          },
-          {
-            name: '合并(合并 / 覆盖src路径以外文件)',
-            value: 'save',
-            short: 'save',
-          },
-        ],
-      },
-    ])
-    .then(args => {
-      save = args.ok === 'save';
-      if (args.ok === 'del') rm(path.join(projectDest, '*'));
-      run();
-    });
-} else {
-  run();
-}
+run();
 
 function run() {
   // 检查版本
   checkVersion(() => {
     console.log(chalk.red(figlet.textSync('YA CLI')));
-    // downloadTemplate('MingNeo/ya-template')
-    downloadTemplate(program.tempalte || 'q13/vue-spa-template');
+    program.tempalte = program.tempalte || 'q13/ya-spa-vue';
+    checkDest();
   });
+}
+
+function checkDest() {
+  if (exists(projectDest)) {
+    inquirer
+      .prompt([
+        {
+          type: 'list',
+          message: '目录已经存在，如何处理？',
+          name: 'ok',
+          choices: [
+            {
+              name: '清空目录',
+              value: 'del',
+              short: 'del',
+            },
+            {
+              name: '合并 (合并/覆盖 ["src", "/index.js"] 以外文件)',
+              value: 'save',
+              short: 'save',
+            },
+          ],
+        },
+      ])
+      .then(args => {
+        save = args.ok === 'save';
+        if (args.ok === 'del') rm(path.join(projectDest, '*'));
+        downloadTemplate(program.tempalte);
+      });
+  } else {
+    downloadTemplate(program.tempalte);
+  }
 }
 /**
  * 下载模板
@@ -88,23 +92,27 @@ function run() {
 function downloadTemplate(template) {
   // 模板存储路径为本地的用户目录 如windows在Users/[user]
   var localTemp = path.join(home, '.ya-templates', template.replace(/\//g, '-'));
-  // localTemp = path.resolve('D:\\code\\demos\\project-template')
   // 使用本地模板
   if (program.offline && exists(localTemp)) {
     console.log(`使用位于${chalk.yellow(localTemp)}的本地模板`);
     startGenerate(name, localTemp, projectDest);
   } else {
+    program.offline && console.log(`本地模板不存在，继续下载模板`);
     const spinner = ora('正在下载模板');
     spinner.start();
     if (exists(localTemp)) rm(localTemp);
     download(template, localTemp, {}, err => {
       spinner.stop();
       if (err) return console.log(chalk.red('  下载模板失败！'));
-      console.log(chalk.yellow(`使用q13/vue-spa-template的预设模板`));
-      console.log();
-      console.log(`默认开启lint，集成router、vuex，使用vuex等`);
-      console.log('cd projectPath');
-      console.log('npm run dev 开始开发');
+
+      if (!save && program.tempalte === 'q13/ya-spa-vue') {
+        console.log();
+        console.log(chalk.yellow(`  使用${program.tempalte}的预设模板, 默认开启lint，集成router、vuex，使用vuex等`));
+        console.log();
+        console.log('    $ cd projectPath');
+        console.log('    $ npm run dev 开始开发');
+      }
+
       startGenerate(name, localTemp, projectDest);
     });
   }

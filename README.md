@@ -31,7 +31,7 @@ $ ya init
 
   Options:
 
-    -o, --offline  使用本地模板
+    -o, --offline  使用已经下载的本地模板
     --template [value] 选择使用的模板
     -i, --install  下载模板后自动安装依赖
     -h, --help     output usage information
@@ -62,5 +62,5 @@ $ ya init project1 -i -o
 自定义模板无需发布到 npm，只需上传到 github 并通过 template 参数使用即可
 
 ```
-$ ya init projiect1 --template q13/vue-spa-template
+$ ya init project1 --template q13/vue-spa-template
 ```
