@@ -23,8 +23,8 @@ program
   .option('-o, --offline', '使用本地模板')
   .option('--template [value]', '选择使用的模板', 'q13/ya-spa-vue')
   .option('-i, --install', '下载模板后自动安装依赖')
+  .option('-s, --save', '如果已存在自动合并')
   .parse(process.argv);
-
 program.on('--help', function() {
   console.log('  Examples:');
   console.log();
@@ -39,7 +39,7 @@ program.on('--help', function() {
 
 const name = program.args[0];
 const projectDest = path.resolve(name || '.');
-let save = false;
+let save = program.save || false;
 // 如果init命令输入了name参数
 if (name) options['name'].default = name;
 run();
@@ -54,7 +54,7 @@ function run() {
 }
 
 function checkDest() {
-  if (exists(projectDest)) {
+  if (!save && exists(projectDest)) {
     inquirer
       .prompt([
         {
@@ -107,7 +107,7 @@ function downloadTemplate(template) {
 
       if (!save && program.tempalte === 'q13/ya-spa-vue') {
         console.log();
-        console.log(chalk.yellow(`  使用${program.tempalte}的预设模板, 默认开启lint，集成router、vuex，使用vuex等`));
+        console.log(chalk.yellow(`  使用${program.tempalte}的预设模板`));
         console.log();
         console.log('    $ cd projectPath');
         console.log('    $ npm run dev 开始开发');
