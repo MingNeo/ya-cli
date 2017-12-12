@@ -35,6 +35,16 @@ $ ya init
     --template [value] 选择使用的模板
     -i, --install  下载模板后自动安装依赖
     -h, --help     output usage information
+
+$ ya update
+  Usage: ya-update [project-name]
+
+  Options:
+
+    -h, --help          output usage information
+    -o, --offline       使用本地模板
+    --template [value]  选择使用的模板
+    -i, --install       下载模板后自动安装依赖
 ```
 
 ### Examples:
@@ -49,6 +59,18 @@ $ ya init project1
 
 ```
 $ ya init
+```
+
+更新当前项目
+
+```
+$ ya update project1
+```
+
+在当前目录更新项目
+
+```
+$ ya update
 ```
 
 使用本地模板 & 自动安装依赖

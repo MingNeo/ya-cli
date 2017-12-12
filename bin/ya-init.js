@@ -68,7 +68,7 @@ function checkDest() {
               short: 'del',
             },
             {
-              name: '合并 (合并/覆盖 ["src", "/index.js"] 以外文件)',
+              name: '合并 (合并/覆盖 ["src", "/index.js", "/README.md"] 以外文件)',
               value: 'save',
               short: 'save',
             },
