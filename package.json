@@ -1,6 +1,6 @@
 {
   "name": "yz-cli",
-  "version": "0.5.9",
+  "version": "0.6.0",
   "description": "yazuo web project scaffold",
   "main": "index.js",
   "scripts": {
@@ -30,6 +30,7 @@
     "global": "4.3.2",
     "handlebars": "4.0.10",
     "inquirer": "3.0.6",
+    "lodash": "4.17.4",
     "metalsmith": "2.3.0",
     "minimatch": "3.0.4",
     "npm": "5.4.2",
