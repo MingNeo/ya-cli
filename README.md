@@ -79,7 +79,54 @@ $ ya update
 $ ya init project1 -i -o
 ```
 
-## 模板
+## 默认模板进行开发
+
+[默认模板](https://github.com/q13/ya-spa-vue) 使用如下
+
+#### 开发环境
+
+开启本地服务器开发并热替换。默认开启 eslint(standard)、flow。
+
+```
+$ cd [project]
+$ npm run dev
+```
+
+#### 生产
+
+```
+$ npm run build
+```
+
+#### mock
+
+使用[mockjs](http://mockjs.com/)规则生成 mock 数据。
+
+```
+$ npm run mock
+```
+
+开启 mock 服务后即可本地 mock 请求。配置规则参考 tools/config dev.proxyTable
+可于/src/mock 文件夹按请求地址创建 js/json 文件并填写符合 mockjs 规则或普通数据如:
+
+```
+c2s('/ya/modules/test')
+
+对应
+  \ya
+  -- \modules
+  ---- \test.json
+```
+
+#### flow
+
+```
+默认集成在eslint中。
+也可以关闭自行使用 $ npm run flow 检测，或 $ npm run flowserver 实时监听。
+使用eslint时,如遇到提示模块未发现。可以手动执行stopflow关闭flow服务后重新 $ npm run dev
+```
+
+## 自定义模板
 
 自定义模板无需发布到 npm，只需上传到 github 并通过 template 参数使用即可
 
