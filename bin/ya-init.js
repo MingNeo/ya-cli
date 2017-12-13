@@ -127,29 +127,25 @@ function downloadTemplate(template) {
  * @param {any} done
  */
 function startGenerate(name, src, dest, done) {
-  generate(
-    name,
-    src,
-    dest,
+  done =
     done ||
-      function() {
-        console.log();
-        console.log(chalk.green('  应用模板成功！'));
-        console.log();
-        program.install
-          ? installModules(dest)
-          : inquirer
-              .prompt([
-                {
-                  name: 'autoInstall',
-                  type: 'confirm',
-                  message: '是否立刻安装依赖？(优先使用yarn,如本机未安装则使用npm install)',
-                },
-              ])
-              .then(args => args.autoInstall && installModules(dest));
-      },
-    { save },
-  );
+    function() {
+      console.log();
+      console.log(chalk.green('  应用模板成功！'));
+      console.log();
+      program.install
+        ? installModules(dest)
+        : inquirer
+            .prompt([
+              {
+                name: 'autoInstall',
+                type: 'confirm',
+                message: '是否立刻安装依赖？(优先使用yarn,如本机未安装则使用npm install)',
+              },
+            ])
+            .then(args => args.autoInstall && installModules(dest));
+    };
+  generate(name, src, dest, done, { save });
 }
 
 /**

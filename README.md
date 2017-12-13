@@ -106,8 +106,7 @@ $ npm run build
 $ npm run mock
 ```
 
-开启 mock 服务后即可本地 mock 请求。配置规则参考 tools/config dev.proxyTable
-可于/src/mock 文件夹按请求地址创建 js/json 文件并填写符合 mockjs 规则或普通数据如:
+开启 mock 服务后即可本地 mock 请求。配置规则参考 tools/config dev.proxyTable。可于/src/mock 文件夹按请求地址创建 js/json 文件并填写符合 mockjs 规则或普通数据。如:
 
 ```
 c2s('/ya/modules/test')
@@ -123,7 +122,8 @@ c2s('/ya/modules/test')
 ```
 默认集成在eslint中。
 也可以关闭自行使用 $ npm run flow 检测，或 $ npm run flowserver 实时监听。
-使用eslint时,如遇到提示模块未发现。可以手动执行stopflow关闭flow服务后重新 $ npm run dev
+使用eslint时,如遇到提示模块未发现。可手动执行stopflow关闭flow服务后重新
+$ npm run dev
 ```
 
 ## 自定义模板
